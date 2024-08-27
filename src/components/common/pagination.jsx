@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 const Pagination = ({ itemCount, pageSize, onPageChange, currentPage }) => {
   const pagesCount = Math.ceil(itemCount / pageSize);
   if (pagesCount === 1) return null;
+
   const pages = _.range(1, pagesCount + 1);
 
   return (
@@ -25,6 +26,7 @@ const Pagination = ({ itemCount, pageSize, onPageChange, currentPage }) => {
   );
 };
 
+// Props Type Checking //
 Pagination.propTypes = {
   itemCount: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
