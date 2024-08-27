@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import Like from "../components/common/like";
+import Delete from "../components/common/delete";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 import { getMovies } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
     movies: getMovies(),
+    pageSize: 5,
+    currentPage: 1,
   };
 
   handleMovies = (id) => {
@@ -19,10 +24,17 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
-  render() {
-    const { movies } = this.state;
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
 
-    if (movies.length === 0)
+  render() {
+    const { movies: allMovies, pageSize, currentPage } = this.state;
+    const count = allMovies.length;
+
+    const movies = paginate(allMovies, currentPage, pageSize);
+
+    if (count === 0)
       return <p className="mt-5">No movies available in the database.</p>;
 
     return (
@@ -44,26 +56,24 @@ class Movies extends Component {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+
                 <Like
                   like={movie.like}
                   onLike={() => this.handleLike(movie._id)}
                 />
-                <td>
-                  {/* Delete Button */}
-                  <button
-                    onClick={() => {
-                      this.handleMovies(movie._id);
-                    }}
-                    type="button"
-                    className="btn btn-danger"
-                  >
-                    Delete
-                  </button>
-                </td>
+
+                <Delete onDelete={() => this.handleMovies(movie._id)} />
               </tr>
             ))}
           </tbody>
         </table>
+
+        <Pagination
+          itemCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     );
   }
