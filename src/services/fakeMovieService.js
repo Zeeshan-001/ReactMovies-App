@@ -130,7 +130,7 @@ const movies = [
   },
   {
     _id: "5b21ca3eeb7f6fbccd471835",
-    title: "The Lord of the Rings: The Return of the King",
+    title: "The Lord of the Rings",
     genre: { _id: "5b21ca3eeb7f6fbccd471819", name: "Fantasy" },
     numberInStock: 6,
     dailyRentalRate: 4.0,
